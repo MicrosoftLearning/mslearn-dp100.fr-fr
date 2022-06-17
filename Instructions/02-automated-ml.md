@@ -1,12 +1,12 @@
 ---
 lab:
   title: Utiliser le Machine learning automatisé
-ms.openlocfilehash: 9836a169752705779f263e7b005baf11e2f7b616
-ms.sourcegitcommit: 8601551af6c32a4c75fd9ecffce750583c2ab4b8
+ms.openlocfilehash: 70580a25d4bcd3929697874650ea6865262871f4
+ms.sourcegitcommit: d2354e40eec31c22eb09381c6a890311cccc30c9
 ms.translationtype: HT
 ms.contentlocale: fr-FR
-ms.lasthandoff: 04/01/2022
-ms.locfileid: "145195795"
+ms.lasthandoff: 06/11/2022
+ms.locfileid: "146266837"
 ---
 # <a name="use-automated-machine-learning"></a>Utiliser le Machine learning automatisé
 
@@ -70,7 +70,7 @@ Maintenant que vous disposez de ressources de calcul pour traiter les données, 
 
 ## <a name="run-an-automated-machine-learning-experiment"></a>Exécuter une expérience de machine learning automatisé
 
-Dans Azure Machine Learning, les opérations que vous exécutez sont appelées *expériences*. Suivez les étapes ci-dessous pour exécuter une expérience qui utilise le Machine Learning automatisé pour effectuer l’apprentissage d’un modèle de régression qui prédit des diagnostics de diabète.
+Dans Azure Machine Learning, les opérations que vous exécutez sont appelées *expériences*. Suivez les étapes ci-dessous pour exécuter une expérience qui utilise le Machine Learning automatisé pour entraîner un modèle de régression qui prédit des diagnostics de diabète.
 
 1. Dans Azure Machine Learning Studio, consultez la page **ML automatisé** (sous **Auteur**).
 2. Créez une exécution de ML automatisé avec les paramètres suivants :
@@ -84,7 +84,7 @@ Dans Azure Machine Learning, les opérations que vous exécutez sont appelées *
     - **Type de tâche et paramètres** :
         - **Type de tâche** : Classification
         - Sélectionnez **Afficher des paramètres de configuration supplémentaires** pour ouvrir **Configurations supplémentaires** :
-            - **Métrique principale** : Sélectionnez **AUC_Weighted** *(nous vous fournirons plus d’informations sur cette métrique ultérieurement)*
+            - **Métrique principale** : Sélectionnez **AUC pondéré** *(plus sur cette métrique plus tard !)*
             - **Expliquer le meilleur modèle** : sélectionné - *cette option fait en sorte que le Machine Learning automatisé calcule l’importance des caractéristique pour le meilleur modèle, permettant ainsi de déterminer l’influence de chaque caractéristique sur l’étiquette prédite.*
             - **Utilisez tous les modèles pris en charge** : <u>Dé-</u>sélectionnez - nous allons restreindre l’expérience pour essayer quelques algorithmes spécifiques.
             - **Modèles autorisés** : Sélectionnez uniquement **LogisticRegression** et **RandomForest**. Il s’agira des seuls algorithmes essayés dans l’expérience.
@@ -106,7 +106,7 @@ Dans Azure Machine Learning, les opérations que vous exécutez sont appelées *
 
 Une fois l’expérience terminée, vous pouvez réviser le modèle le plus performant généré (notez que nous avons utilisé ici des critères de sortie pour arrêter l’expérience ; il se peut que le « meilleur » modèle trouvé par l’expérience ne soit pas le meilleur modèle possible, mais juste le meilleur trouvé compte tenu des contraintes de temps et de métrique de cet exercice).
 
-1. Sous l’onglet **Détails** de l’exécution de Machine Learning automatisé, notez le résumé du meilleur modèle.
+1. Sous l’onglet **Vue d’ensemble** de l’exécution du Machine Learning automatisé, notez le résumé du meilleur modèle.
 2. Sélectionnez le **Nom de l’algorithme** pour le meilleur modèle afin d’afficher l’exécution enfant qui l’a produit.
 
     Le meilleur modèle est identifié en fonction de la métrique d’évaluation que vous avez spécifiée (*AUC_Weighted*). Pour calculer cette métrique, le processus d’entraînement a utilisé certaines des données pour entraîner le modèle, et appliqué une technique appelée *validation croisée* afin de tester itérativement le modèle entraîné avec des données avec lesquelles il n’a pas été entraîné et de comparer la valeur prédite avec la valeur connue réelle. À partir de ces comparaisons, une *matrice de confusion* contenant les vrais positifs, les faux positifs, les vrais négatifs et les faux négatifs est mise en forme de tableau, et des métriques de classification supplémentaires sont calculées (incluant une courbe de l’opérateur de réception -ROC, Receiving Operator Curve- qui compare les taux de vrais positifs et de faux positifs). L’aire sous cette courbe (AUC) est une métrique courante utilisée pour évaluer les performances de classification.
@@ -120,7 +120,7 @@ Une fois que vous avez utilisé le Machine Learning automatisé pour entraîner 
 
 > **Remarque** : Dans Azure Machine Learning, vous pouvez déployer un service en tant qu’Azure Container Instances (ACI) ou dans un cluster Azure Kubernetes service (AKS). Pour les scénarios de production, un déploiement AKS est recommandé. Vous devez dans ce cas créer une cible de calcul de type *cluster d’inférence*. Dans cet exercice, vous allez utiliser un service ACI, cible de déploiement qui convient pour le test et qui ne demande pas de créer un cluster d’inférence.
 
-1. Sélectionnez l’onglet **Détails** correspondant à l’exécution qui a produit le meilleur modèle.
+1. Sélectionnez l’onglet **Vue d’ensemble** de l’exécution qui a produit le meilleur modèle.
 2. À partir de l’option **Déployer**, utilisez le bouton **Déployer sur un service web** pour déployer le modèle avec les paramètres suivants :
     - **Nom** : auto-predict-diabetes
     - **Description** : Prédire un diabète
