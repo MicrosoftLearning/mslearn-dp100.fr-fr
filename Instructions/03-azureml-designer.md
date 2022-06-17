@@ -1,16 +1,16 @@
 ---
 lab:
   title: Utiliser le Concepteur Azure Machine Learning
-ms.openlocfilehash: 3bfe1bf2e119c295ad3931c569e1f09b41bb2174
-ms.sourcegitcommit: 38540a481d1dfa9bab570777b72e3cf9b6ee6da7
+ms.openlocfilehash: 55911fdc4ea7e3a2b48ab0d0a583a0a24121ffca
+ms.sourcegitcommit: d2354e40eec31c22eb09381c6a890311cccc30c9
 ms.translationtype: HT
 ms.contentlocale: fr-FR
-ms.lasthandoff: 12/16/2021
-ms.locfileid: "145195783"
+ms.lasthandoff: 06/11/2022
+ms.locfileid: "146266846"
 ---
 # <a name="use-azure-machine-learning-designer"></a>Utiliser le Concepteur Azure Machine Learning
 
-Le *concepteur* Azure Machine Learning fournit un environnement de glisser-déplacer dans lequel vous pouvez définir un workflow, ou *pipeline* de modules d’ingestion, de transformation et d’apprentissage de modèle de données pour créer un modèle Machine Learning. Vous pouvez ensuite publier ce pipeline en tant que service web que des applications clientes peuvent utiliser à des fins d’*inférence* (génération de prédictions à partir de nouvelles données).
+Le *concepteur* Azure Machine Learning fournit un environnement de glisser-déposer dans lequel vous pouvez définir un workflow, ou *pipeline*, de composants d’ingestion de données, de transformation et d’entraînement de modèles pour créer un modèle Machine Learning. Vous pouvez ensuite publier ce pipeline en tant que service web que des applications clientes peuvent utiliser à des fins d’*inférence* (génération de prédictions à partir de nouvelles données).
 
 ## <a name="before-you-start"></a>Avant de commencer
 
@@ -56,17 +56,17 @@ Maintenant que vous disposez de ressources de calcul que vous pouvez utiliser po
     * **Confirmer les détails** :
         * Ne pas profiler ce jeu de données après sa création
 
-4. Affichez la page **Explorer** pour voir un échantillon des données. Ces données sont les détails de patients qui ont été testés pour le diabète. Vous allez les utiliser pour effectuer l’apprentissage d’un modèle qui prédit la probabilité qu’un patient soit testé positif au diabète en fonction des mesures cliniques.
+4. Affichez la page **Explorer** pour voir un échantillon des données. Ces données sont les détails de patients qui ont été testés pour le diabète. Vous allez les utiliser pour entraîner un modèle qui prédit la probabilité qu’un patient soit testé positif au diabète en fonction des mesures cliniques.
 
 ## <a name="create-a-designer-pipeline"></a>Créer un pipeline de concepteur
 
 Pour commencer à utiliser le concepteur, vous devez créer un pipeline et ajouter le jeu de données que vous souhaitez utiliser.
 
 1. Dans Azure Machine Learning Studio, affichez la page **Concepteur** et créez un pipeline.
-2. Changez le nom du pipeline par défaut (**Pipeline-Created-on-* date***) en **Visual Diabetes Training** en cliquant sur le nom par défaut (ou sur l’icône **&#9881;** en regard du nom du pipeline) pour le modifier.
+2. Remplacez le nom du pipeline par défaut (**Pipeline-Created-on-* date***) par **Visual Diabetes Training** en cliquant sur l’icône **&#9881;** à droite pour ouvrir le volet **Paramètres**.
 3. Notez que vous devez spécifier une cible de calcul sur laquelle exécuter le pipeline. Dans le volet **Paramètres**, cliquez sur **Sélectionner une cible de calcul**, puis sélectionnez votre cluster de calcul.
-4. Sur le côté gauche du concepteur, développez la section **Jeux de données**, puis faites glisser le jeu de données **diabetes dataset** sur le canevas.
-5. Sélectionnez le module **diabetes dataset** sur le canevas. Cliquez dessus avec le bouton droit, puis sélectionnez **Aperçu des données**.
+4. Sur le côté gauche du concepteur, sélectionnez l’onglet **Données**, puis faites glisser le jeu de données **diabetes dataset** dans le canevas.
+5. Sélectionnez le composant **diabetes dataset** sur le canevas. Cliquez dessus avec le bouton droit, puis sélectionnez **Aperçu des données**.
 6. Dans le volet DatasetOutput, sélectionnez l’onglet **Profil**.
 7. Examinez le schéma des données. Notez que vous pouvez voir les distributions des différentes colonnes sous forme d’histogrammes. Fermez ensuite la fenêtre de visualisation.
 
@@ -74,9 +74,9 @@ Pour commencer à utiliser le concepteur, vous devez créer un pipeline et ajout
 
 Avant de pouvoir entraîner un modèle, vous devez généralement appliquer certaines transformations de prétraitement aux données.
 
-1. Dans le volet de gauche, développez la section **Data Transformation**, qui contient un large choix de modules que vous pouvez utiliser pour transformer des données avant l’entraînement du modèle.
-2. Faites glisser un module **Normaliser des données** vers le canevas, sous le jeu de données **diabetes dataset**. Connectez ensuite la sortie du module **diabetes dataset** à l’entrée du module **Normaliser des données**.
-3. Sélectionnez le module **Normalize Data** et observez ses paramètres ; vous devez spécifier la méthode de transformation et les colonnes à transformer. Ensuite, en laissant la transformation comme **ZScore**, modifiez les colonnes pour inclure les noms de colonnes suivants :
+1. Dans le volet de gauche, sélectionnez l’onglet **Composant**, qui contient un large choix de composants que vous pouvez utiliser pour transformer des données avant l’entraînement du modèle. Vous pouvez rechercher des composants en haut du volet.
+2. Recherchez le composant **Normaliser les données** et faites-le glisser dans le canevas, sous le composant **diabetes dataset**. Connectez ensuite la sortie du composant **diabetes dataset** à l’entrée du composant **Normaliser des données**.
+3. Sélectionnez le composant **Normaliser les données** et observez ses paramètres ; vous pouvez voir que vous devez spécifier la méthode de transformation et les colonnes à transformer. Ensuite, en laissant la transformation comme **ZScore**, modifiez les colonnes pour inclure les noms de colonnes suivants :
     * PlasmaGlucose
     * DiastolicBloodPressure
     * TricepsThickness
@@ -86,22 +86,22 @@ Avant de pouvoir entraîner un modèle, vous devez généralement appliquer cert
 
     **Remarque** : Nous normalisons les colonnes numériques pour les mettre à la même échelle et éviter que des colonnes contenant de grandes valeurs dominent l’apprentissage du modèle. Vous appliqueriez normalement une série complète de transformations de prétraitement comme celle-ci afin de préparer vos données pour l’apprentissage. Cependant, nous allons simplifier les choses dans cet exercice.
 
-4. Nous sommes maintenant prêts à fractionner les données en jeux de données distincts pour l’apprentissage et la validation. Dans le volet de gauche, dans la section **Data Transformations**, faites glisser un module **Split Data** sur le canevas, sous le module **Normalize Data**. Connectez ensuite la sortie *Transformed Dataset* (à gauche) du module **Normalize Data** à l’entrée du module **Split Data**.
-5. Sélectionnez le module **Split Data** et configurez ses paramètres comme suit :
+4. Nous sommes maintenant prêts à fractionner les données en jeux de données distincts pour l’apprentissage et la validation. Dans le volet de gauche, recherchez le composant **Découper les données** et faites-le glisser dans le canevas sous le composant **Normaliser les données**. Connectez ensuite la sortie *Jeu de données transformées* (à gauche) du composant **Normaliser les données** à l’entrée du composant **Découper les données**.
+5. Sélectionnez le composant **Découper les données** et configurez ses paramètres comme suit :
     * **Splitting mode** : Split Rows
     * **Fraction of rows in the first output dataset** : 0.7
     * **Random seed** : 123
     * **Stratified split** : False
 
-## <a name="add-model-training-modules"></a>Ajouter des modules d’apprentissage de modèle
+## <a name="add-model-training-components"></a>Ajouter des composants d’entraînement de modèle
 
-Une fois les données préparées et fractionnées en jeux de données d’apprentissage et de validation, vous êtes prêt à configurer le pipeline pour effectuer l’apprentissage d’un modèle et évaluer celui-ci.
+Une fois les données préparées et découpées en jeux de données d’entraînement et de validation, vous êtes prêt à configurer le pipeline pour entraîner et évaluer un modèle.
 
-1. Développez la section **Model Training** du volet de gauche, puis faites glisser un module **Train Model** sur le canevas, sous le module **Split Data**. Connectez ensuite la sortie *Result dataset1* (à gauche) du module **Split Data** à l’entrée *Dataset* (à droite) du module **Train Model**.
-2. Le modèle que nous entraînons prédira la valeur **Diabetic**. Vous allez donc sélectionner le module **Train Model** et modifier ses paramètres : définissez la valeur **Label column** sur **Diabetic** (en respectant strictement la casse et l’orthographe).
-3. L’étiquette **Diabétique** que le modèle va prédire étant une colonne binaire (1 pour les patients atteints de diabète, 0 pour les patients non atteints), nous devons effectuer l’apprentissage du modèle à l’aide d’un algorithme de *classification*. Développez la section **Machine Learning Algorithms**. Sous **Classification**, faites glisser un module **Two-Class Logistic Regression** sur le canevas, à gauche du module **Split Data** et au-dessus du module **Train Model**. Ensuite, connectez sa sortie à l’entrée **Untrained model** (à gauche) du module **Train Model**.
-4. Pour tester le modèle formé, nous devons l’utiliser pour déterminer le scoring du jeu de données de validation que nous avons retenu au moment du fractionnement des données d’origine. Développez la section **Model Scoring & Evaluation**, puis faites glisser un module **Score Model** sur le canevas, sous le module **Train Model**. Ensuite, connectez la sortie du module **Train Model** à l’entrée **Trained model** (à gauche) du module **Score Model** et faites glisser la sortie **Results dataset2** (à droite) du module **Split Data** vers l’entrée **Dataset** (à droite) du module **Score Model**.
-5. Pour évaluer les performances du modèle, nous devons examiner certaines métriques générées par le scoring du jeu de données de validation. Dans la section **Scoring et évaluation d’un modèle**, faites glisser un module **Évaluer le modèle** dans le canevas, sous le module **Noter le modèle**, puis connectez la sortie du module **Noter le modèle** à l’entrée **Noter le jeu de données** (à gauche) du module **Évaluer le modèle**.
+1. Recherchez le composant **Entraîner le modèle** et faites-le glisser dans le canevas, sous le composant **Découper les données**. Connectez ensuite la sortie *Jeu de données1 de résultat* (à gauche) du composant **Découper les données** à l’entrée *Jeu de données* (à droite) du composant **Entraîner le modèle**.
+2. Le modèle que nous entraînons prédira la valeur **Diabetic**, donc sélectionnez le composant **Entraîner le modèle** et modifiez ses paramètres pour définir la valeur **Étiqueter la colonne** sur **Diabetic** (en respectant exactement la casse et l’orthographe).
+3. L’étiquette **Diabétique** que le modèle va prédire étant une colonne binaire (1 pour les patients atteints de diabète, 0 pour les patients non atteints), nous devons effectuer l’apprentissage du modèle à l’aide d’un algorithme de *classification*. Recherchez le composant **Régression logistique à deux classes** et faites glisser-le dans le canevas, à gauche du composant **Découper les données** et au-dessus du composant **Entraîner le modèle**. Ensuite, connectez sa sortie à l’entrée **Modèle non entraîné** (à gauche) du composant **Entraîner le modèle**.
+4. Pour tester le modèle formé, nous devons l’utiliser pour déterminer le scoring du jeu de données de validation que nous avons retenu au moment du fractionnement des données d’origine. Recherchez le composant **Scorer le modèle** et faites-le glisser-le dans le canevas, sous le composant **Entraîner le modèle**. Ensuite, connectez la sortie du composant **Entraîner le modèle** à l’entrée **Modèle entraîné** (à gauche) du composant **Scorer le modèle** et faites glisser la sortie **Jeu de données2 de résultat** (à droite) du composant **Découper les données** vers l’entrée **Jeu de données** (à droite) du composant **Scorer le modèle**.
+5. Pour évaluer les performances du modèle, nous devons examiner certaines métriques générées par le scoring du jeu de données de validation. Recherchez le composant **Évaluer le modèle** et faites-le glisser dans le canevas, sous le composant **Scorer le modèle**, puis connectez la sortie du composant **Scorer le modèle** à l’entrée **Scorer le jeu de données** (à gauche) du composant **Évaluer le modèle**.
 
 ## <a name="run-the-training-pipeline"></a>Exécuter le pipeline d’entraînement
 
@@ -117,10 +117,10 @@ Avec les étapes de flux de données définies, vous êtes maintenant prêt à e
     >
     > Bien qu’il soit en cours d’exécution, vous pouvez afficher le pipeline et l’expérience créés dans les pages **Pipelines** et **Expériences.** Revenez au pipeline **Visual Diabetes Training** sur la page **Concepteur** lorsque vous avez terminé.
 
-3. Une fois le module **Normaliser les données** terminé, sélectionnez-le, puis, dans le volet **Paramètres**, sous l’onglet **Sorties + journaux**, sous **Sorties de données** dans la section **Jeu de données transformé**, cliquez sur l’icône **Aperçu des données**. Comme vous pouvez le constater, vous pouvez afficher les statistiques et les visualisations de distribution pour les colonnes transformées.
-4. Fermez les visualisations **Normaliser les données** et attendez que le reste des modules se termine. Visualisez ensuite la sortie du module **Évaluer le modèle** afin de voir les métriques de performances pour le modèle.
+3. Une fois le composant **Normaliser les données** terminé, sélectionnez-le, puis, dans le volet **Paramètres**, sous l’onglet **Sorties + journaux**, sous **Sorties de données** dans la section **Jeu de données transformé**, cliquez sur l’icône **Aperçu des données**. Notez que vous pouvez voir les statistiques et les visualisations de distribution pour les colonnes transformées.
+4. Fermez les visualisations **Normaliser les données** et attendez que le reste des composants se termine. Visualisez ensuite la sortie du composant **Évaluer le modèle** afin de voir les métriques de performances pour le modèle.
 
-    **Remarque** : La performance de ce modèle n’est pas excellente, notamment parce que nous n’avons effectué qu’une caractérisation et un prétraitement minimes. Vous pourriez essayer différents algorithmes de classification et comparer les résultats (vous pouvez connecter les sorties du module **Fractionner les données** à des modules **Effectuer l’apprentissage du modèle** et **Noter le modèle**, ainsi que connecter un deuxième module **Modèle de score** pour voir une comparaison côte à côte). L’objectif de l’exercice est simplement de vous faire découvrir l’interface du concepteur, non d’effectuer l’apprentissage d’un modèle parfait.
+    **Remarque** : La performance de ce modèle n’est pas excellente, notamment parce que nous n’avons effectué qu’une caractérisation et un prétraitement minimes. Vous pouvez essayer différents algorithmes de classification et comparer les résultats (vous pouvez connecter les sorties du composant **Découper les données** aux composants **Entraîner le modèle** et **Scorer le modèle**, et vous pouvez connecter un deuxième modèle scoré au composant **Évaluer le modèle** pour voir une comparaison côte à côte). L’objectif de l’exercice est simplement de vous faire découvrir l’interface du concepteur, pas d’entraîner un modèle parfait.
 
 ## <a name="create-an-inference-pipeline"></a>Créer un pipeline d'inférence
 
@@ -129,7 +129,7 @@ Maintenant que vous avez utilisé un *pipeline d’apprentissage* pour effectuer
 1. Dans la liste déroulante **Create inference pipeline**, cliquez sur **Real-time inference pipeline**. Après quelques secondes, une nouvelle version de votre pipeline nommée **Visual Diabetes Training-real time inference** s’ouvre.
 2. Renommez le nouveau pipeline **Predict Diabetes**, puis examinez-le. Notez que la transformation de normalisation et le modèle formé ont été encapsulés dans ce pipeline afin que les statistiques issues de vos données d’apprentissage soient utilisées pour normaliser les nouvelles valeurs de données et que le modèle formé soit utilisé pour le scoring des nouvelles données.
 3. Notez que le pipeline d’inférence partant du principe que les nouvelles données correspondront au schéma des données d’apprentissage d’origine, le jeu de données **diabetes dataset** du pipeline d’apprentissage est inclus. Toutefois, ces données d’entrée incluent l’étiquette **Diabetic** prédite par le modèle. Or, il n’est pas intuitif de l’inclure dans les nouvelles données de patient pour lesquelles aucune prédiction de diabète n’a encore été effectuée.
-4. Supprimez le jeu de données **diabetes dataset** du pipeline d’inférence et remplacez-le par un module **Entrer des données manuellement** de la section **Entrée et sortie des données**, en le connectant à la même entrée de **jeu de données** du module **Appliquer une transformation** que l’**Entrée du service web**. Modifiez ensuite les paramètres du module **Entrer des données manuellement** afin d’utiliser l’entrée CSV suivante, qui inclut des valeurs de caractéristiques sans étiquettes pour trois nouvelles observations de patients :
+4. Supprimez le jeu de données **diabetes dataset** du pipeline d’inférence et remplacez-le par un composant **Entrer des données manuellement**. En le connectant à la même entrée **jeu de données** du composant **Appliquer une transformation** que l’**Entrée du service web**. Modifiez ensuite les paramètres du composant **Entrer des données manuellement** afin d’utiliser l’entrée CSV suivante, qui inclut des valeurs de caractéristiques sans étiquettes pour trois nouvelles observations de patients :
 
 ```CSV
 PatientID,Pregnancies,PlasmaGlucose,DiastolicBloodPressure,TricepsThickness,SerumInsulin,BMI,DiabetesPedigree,Age
@@ -138,8 +138,8 @@ PatientID,Pregnancies,PlasmaGlucose,DiastolicBloodPressure,TricepsThickness,Seru
 1228510,4,115,50,29,243,34.69215364,0.741159926,59
 ```
 
-5. Le pipeline d’inférence comprend le module **Evaluate Model**, qui n’est pas utile pour la prédiction à partir de nouvelles données. Supprimez donc ce module.
-6. La sortie du module **Score Model** comprend toutes les caractéristiques d’entrée ainsi que l’étiquette prédite et le score de probabilité. Pour limiter la sortie à la prédiction et à la probabilité, supprimez la connexion entre le module **Modèle de score** et la **Sortie du service web**, ajoutez un module **Exécuter un script Python** à partir de la section **Langage Python**, connectez la sortie du module **Modèle de score** à l’entrée **Dataset1** (la plus à gauche) du module **Exécuter un script Python**, et connectez la sortie du module **Exécuter un script Python** à la **Sortie du service web**. Modifiez ensuite les paramètres du module **Exécuter un script Python** pour utiliser le code suivant (en remplaçant tout le code existant) :
+5. Le pipeline d’inférence comprend le composant **Évaluer le modèle**, qui n’est pas utile pour la prédiction à partir de nouvelles données, donc supprimez-le.
+6. La sortie du composant **Scorer le modèle** comprend toutes les caractéristiques d’entrée ainsi que l’étiquette prédite et le score de probabilité. Pour limiter la sortie uniquement à la prédiction et à la probabilité, supprimez la connexion entre le composant **Scorer le modèle** et la **Sortie du service web**, ajoutez un composant **Exécuter un script Python**. Connectez la sortie du composant **Scorer le modèle** à l’entrée **Jeu de données1** (la plus à gauche) du composant **Exécuter le script Python**, puis connectez la sortie du composant **Exécuter le script Python** à **Sortie du service web**. Modifiez ensuite les paramètres du composant **Exécuter le script Python** pour utiliser le code suivant (en remplaçant tout le code existant) :
 
 ```Python
 import pandas as pd
@@ -152,7 +152,7 @@ def azureml_main(dataframe1 = None, dataframe2 = None):
                             inplace=True)
     return scored_results
 ```
-> **Remarque** : après avoir collé le code dans le module **Exécuter le script Python**, vérifiez que le code ressemble au code ci-dessus. Les retraits sont importants dans Python et le module échouera s’ils ne sont pas copiés correctement. 
+> **Remarque** : Après avoir collé le code dans le composant **Exécuter le script Python**, vérifiez que le code ressemble au code ci-dessus. Les mises en retrait sont importantes dans Python et le composant échoue si elles ne sont pas copiées correctement. 
 
 7. Vérifiez que votre pipeline ressemble à ce qui suit :
 
@@ -166,7 +166,7 @@ Vous disposez maintenant d’un pipeline d’inférence pour l’inférence en t
 
 > **Remarque** : Dans cet exercice, vous déployez le service web sur une instance de conteneur Azure (ACI). Ce type de calcul, créé dynamiquement, est utile pour le développement et le test. Pour la production, vous devez créer un *cluster d’inférence* qui fournit un cluster Azure Kubernetes Service (AKS) offrant une meilleure scalabilité et une meilleure sécurité.
 
-1. Si l’exécution du pipeline d’inférence **Prédire un diabète** est toujours en cours, attendez qu’elle se termine. Ensuite, visualisez la sortie du **Jeu de données de résultats** du module **Exécuter un script Python** pour voir les étiquettes prédites et les probabilités pour les trois observations de patients dans les données d’entrée.
+1. Si l’exécution du pipeline d’inférence **Prédire un diabète** est toujours en cours, attendez qu’elle se termine. Ensuite, visualisez la sortie **Jeu de données de résultat** du composant **Exécuter le script Python** pour voir les étiquettes prédites et les probabilités pour les trois observations de patients dans les données d’entrée.
 2. En haut à droite, cliquez **Déployer** et déployez un nouveau point de terminaison en temps réel à l’aide des paramètres suivants :
     -  **Nom** : designer-predict-diabetes
     -  **Description** : Prédire un diabète.
