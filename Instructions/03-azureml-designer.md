@@ -1,12 +1,12 @@
 ---
 lab:
   title: Utiliser le Concepteur Azure Machine Learning
-ms.openlocfilehash: 55911fdc4ea7e3a2b48ab0d0a583a0a24121ffca
-ms.sourcegitcommit: d2354e40eec31c22eb09381c6a890311cccc30c9
+ms.openlocfilehash: ce03f54e5762e66363608b88fd86ec1de5795a33
+ms.sourcegitcommit: 48bc4227570b0817702d195aa06fa4dabe1bbdd7
 ms.translationtype: HT
 ms.contentlocale: fr-FR
-ms.lasthandoff: 06/11/2022
-ms.locfileid: "146266846"
+ms.lasthandoff: 06/29/2022
+ms.locfileid: "146733074"
 ---
 # <a name="use-azure-machine-learning-designer"></a>Utiliser le Concepteur Azure Machine Learning
 
@@ -37,7 +37,7 @@ Pour utiliser le concepteur Azure Machine Learning, vous avez besoin d’une ins
 
 Maintenant que vous disposez de ressources de calcul que vous pouvez utiliser pour exécuter un pipeline d’apprentissage, vous allez avoir besoin de données pour effectuer l’apprentissage du modèle.
 
-1. Dans Azure Machine Learning Studio, affichez la page **Jeux de données**. Les jeux de données représentent les tables ou fichiers de données spécifiques que vous comptez utiliser dans Azure Machine Learning.
+1. Dans Azure Machine Learning Studio, affichez la page **Données**. Les jeux de données représentent les tables ou fichiers de données spécifiques que vous comptez utiliser dans Azure Machine Learning.
 2. Si vous avez créé précédemment le jeu de données **diabetes dataset**, ouvrez-le. Autrement, créez un jeu de données à partir de fichiers web, en utilisant les paramètres suivants, puis ouvrez-le :
     * **Informations de base** :
         * **URL web** : 
@@ -56,7 +56,7 @@ Maintenant que vous disposez de ressources de calcul que vous pouvez utiliser po
     * **Confirmer les détails** :
         * Ne pas profiler ce jeu de données après sa création
 
-4. Affichez la page **Explorer** pour voir un échantillon des données. Ces données sont les détails de patients qui ont été testés pour le diabète. Vous allez les utiliser pour entraîner un modèle qui prédit la probabilité qu’un patient soit testé positif au diabète en fonction des mesures cliniques.
+4. Affichez la page **Explorer** pour voir un échantillon des données. Ces données sont les détails de patients qui ont été testés pour le diabète. Vous allez les utiliser pour effectuer l’apprentissage d’un modèle qui prédit la probabilité qu’un patient soit testé positif au diabète en fonction des mesures cliniques.
 
 ## <a name="create-a-designer-pipeline"></a>Créer un pipeline de concepteur
 
@@ -64,10 +64,10 @@ Pour commencer à utiliser le concepteur, vous devez créer un pipeline et ajout
 
 1. Dans Azure Machine Learning Studio, affichez la page **Concepteur** et créez un pipeline.
 2. Remplacez le nom du pipeline par défaut (**Pipeline-Created-on-* date***) par **Visual Diabetes Training** en cliquant sur l’icône **&#9881;** à droite pour ouvrir le volet **Paramètres**.
-3. Notez que vous devez spécifier une cible de calcul sur laquelle exécuter le pipeline. Dans le volet **Paramètres**, cliquez sur **Sélectionner une cible de calcul**, puis sélectionnez votre cluster de calcul.
+3. Notez que vous devez spécifier une cible de calcul sur laquelle exécuter le pipeline. Dans le volet **Paramètres**, cliquez sur **Sélectionner le type de calcul**, choisissez Cluster de calcul, cliquez sur Sélectionner un cluster de calcul Azure ML, choisissez votre cluster de calcul, puis fermez le volet Paramètres.
 4. Sur le côté gauche du concepteur, sélectionnez l’onglet **Données**, puis faites glisser le jeu de données **diabetes dataset** dans le canevas.
 5. Sélectionnez le composant **diabetes dataset** sur le canevas. Cliquez dessus avec le bouton droit, puis sélectionnez **Aperçu des données**.
-6. Dans le volet DatasetOutput, sélectionnez l’onglet **Profil**.
+6. Dans le volet DataOutput, sélectionnez l’onglet **Profil**.
 7. Examinez le schéma des données. Notez que vous pouvez voir les distributions des différentes colonnes sous forme d’histogrammes. Fermez ensuite la fenêtre de visualisation.
 
 ## <a name="add-transformations"></a>Ajouter des transformations
@@ -126,10 +126,11 @@ Avec les étapes de flux de données définies, vous êtes maintenant prêt à e
 
 Maintenant que vous avez utilisé un *pipeline d’apprentissage* pour effectuer l’apprentissage d’un modèle, vous pouvez créer un *pipeline d’inférence* qui utilise le modèle formé pour prédire des étiquettes pour de nouvelles données.
 
-1. Dans la liste déroulante **Create inference pipeline**, cliquez sur **Real-time inference pipeline**. Après quelques secondes, une nouvelle version de votre pipeline nommée **Visual Diabetes Training-real time inference** s’ouvre.
-2. Renommez le nouveau pipeline **Predict Diabetes**, puis examinez-le. Notez que la transformation de normalisation et le modèle formé ont été encapsulés dans ce pipeline afin que les statistiques issues de vos données d’apprentissage soient utilisées pour normaliser les nouvelles valeurs de données et que le modèle formé soit utilisé pour le scoring des nouvelles données.
-3. Notez que le pipeline d’inférence partant du principe que les nouvelles données correspondront au schéma des données d’apprentissage d’origine, le jeu de données **diabetes dataset** du pipeline d’apprentissage est inclus. Toutefois, ces données d’entrée incluent l’étiquette **Diabetic** prédite par le modèle. Or, il n’est pas intuitif de l’inclure dans les nouvelles données de patient pour lesquelles aucune prédiction de diabète n’a encore été effectuée.
-4. Supprimez le jeu de données **diabetes dataset** du pipeline d’inférence et remplacez-le par un composant **Entrer des données manuellement**. En le connectant à la même entrée **jeu de données** du composant **Appliquer une transformation** que l’**Entrée du service web**. Modifiez ensuite les paramètres du composant **Entrer des données manuellement** afin d’utiliser l’entrée CSV suivante, qui inclut des valeurs de caractéristiques sans étiquettes pour trois nouvelles observations de patients :
+1. Dans l’onglet **Travaux**, accédez au pipeline terminé. 
+2. Sélectionnez **Créer un pipeline d’inférence**, puis cliquez sur le **pipeline d’inférence en temps réel**. Après quelques secondes, une nouvelle version de votre pipeline nommée **Visual Diabetes Training-real time inference** s’ouvre.
+3. Renommez le nouveau pipeline **Predict Diabetes**, puis examinez-le. Notez que la transformation de normalisation et le modèle formé ont été encapsulés dans ce pipeline afin que les statistiques issues de vos données d’apprentissage soient utilisées pour normaliser les nouvelles valeurs de données et que le modèle formé soit utilisé pour le scoring des nouvelles données.
+4. Notez que le pipeline d’inférence partant du principe que les nouvelles données correspondront au schéma des données d’apprentissage d’origine, le jeu de données **diabetes dataset** du pipeline d’apprentissage est inclus. Toutefois, ces données d’entrée incluent l’étiquette **Diabetic** prédite par le modèle. Or, il n’est pas intuitif de l’inclure dans les nouvelles données de patient pour lesquelles aucune prédiction de diabète n’a encore été effectuée.
+5. Supprimez le jeu de données **diabetes dataset** du pipeline d’inférence et remplacez-le par un composant **Entrer des données manuellement**. En le connectant à la même entrée **jeu de données** du composant **Appliquer une transformation** que l’**Entrée du service web**. Modifiez ensuite les paramètres du composant **Entrer des données manuellement** afin d’utiliser l’entrée CSV suivante, qui inclut des valeurs de caractéristiques sans étiquettes pour trois nouvelles observations de patients :
 
 ```CSV
 PatientID,Pregnancies,PlasmaGlucose,DiastolicBloodPressure,TricepsThickness,SerumInsulin,BMI,DiabetesPedigree,Age

@@ -1,12 +1,12 @@
 ---
 lab:
   title: Utiliser le Machine learning automatisé
-ms.openlocfilehash: 70580a25d4bcd3929697874650ea6865262871f4
-ms.sourcegitcommit: d2354e40eec31c22eb09381c6a890311cccc30c9
+ms.openlocfilehash: a4908c0de74edb6c2fdf7b1a7288014d1ab86b94
+ms.sourcegitcommit: 48bc4227570b0817702d195aa06fa4dabe1bbdd7
 ms.translationtype: HT
 ms.contentlocale: fr-FR
-ms.lasthandoff: 06/11/2022
-ms.locfileid: "146266837"
+ms.lasthandoff: 06/29/2022
+ms.locfileid: "146733065"
 ---
 # <a name="use-automated-machine-learning"></a>Utiliser le Machine learning automatisé
 
@@ -42,7 +42,7 @@ Pour utiliser le Machine Learning automatisé, vous avez besoin d’une instance
 Maintenant que vous disposez de ressources de calcul pour traiter les données, vous allez avoir besoin d’un moyen de stocker et d’ingérer les données à traiter.
 
 1. Affichez les données séparées par des virgules sur https://aka.ms/diabetes-data dans votre navigateur web. Enregistrez-les dans un fichier local nommé **diabète.csv** (peu importe où l’emplacement).
-2. Dans Azure Machine Learning Studio, affichez la page **Jeux de données**. Les jeux de données représentent les tables ou fichiers de données spécifiques que vous comptez utiliser dans Azure Machine Learning.
+2. Dans Azure Machine Learning Studio, affichez la page **Données**. Les jeux de données représentent les tables ou fichiers de données spécifiques que vous comptez utiliser dans Azure Machine Learning.
 3. Créez un nouveau jeu de données à partir de fichiers locaux, avec les paramètres suivants :
     * **Informations de base** :
         * **Nom** : jeu de données diabète
